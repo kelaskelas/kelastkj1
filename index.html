@@ -119,5 +119,16 @@
         <button onclick="closeAlert()" class="btn-main">Oke</button>
     </div>
 </div>
+
+    <script>
+  // Cek kalau URL mengandung .html
+  if (window.location.pathname.endsWith(".html")) {
+    // Ambil nama file tanpa .html
+    var newPath = window.location.pathname.replace(".html", "");
+    // Update URL di browser tanpa reload halaman
+    window.history.replaceState(null, null, newPath);
+  }
+</script>
 </body>
+
 </html>
