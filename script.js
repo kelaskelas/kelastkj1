@@ -65,8 +65,10 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
         if (nis.length < 3) { 
             showAlert("NIS tidak valid!", "error");
             return;
+        }
+    }
 
-            // Cari bagian ini di dalam event listener signup-form lu
+// Cari bagian ini di dalam event listener signup-form lu
 if (result.success) {
     showAlert(result.msg, 'success');
 
@@ -89,7 +91,7 @@ if (result.success) {
         }, 2000);
     }
 }
-
+    
     // Kirim data ke processForm
     processForm({ 
         action: 'signup', 
