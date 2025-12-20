@@ -21,15 +21,11 @@ window.onclick = function(event) {
 
 // Fungsi Logout
 function logout() {
-    // 1. Bersihin data
+    // 1. Bersihkan loker browser
     localStorage.clear();
 
-    // 2. Ambil nama repository lu otomatis
-    // Ini biar kalau lu ganti nama repo, kodenya gak rusak
-    const repoName = window.location.pathname.split('/')[1]; 
-    
-    // 3. Arahkan ke root repository
-    window.location.href = `/${repoName}/index.html`;
+    // 2. Langsung tembak ke index.html di folder yang sama
+    window.location.href = "index.html";
 }
 window.onload = function() {
     // 1. Ambil data dari loker bernama 'namaLengkap'
