@@ -21,10 +21,15 @@ window.onclick = function(event) {
 
 // Fungsi Logout
 function logout() {
-    if (confirm("Yakin mau keluar, Le?")) {
-        localStorage.clear();
-        window.location.href = "index.html";
-    }
+    // 1. Bersihin data
+    localStorage.clear();
+
+    // 2. Ambil nama repository lu otomatis
+    // Ini biar kalau lu ganti nama repo, kodenya gak rusak
+    const repoName = window.location.pathname.split('/')[1]; 
+    
+    // 3. Arahkan ke root repository
+    window.location.href = `/${repoName}/index.html`;
 }
 window.onload = function() {
     // 1. Ambil data dari loker bernama 'namaLengkap'
@@ -130,4 +135,5 @@ function toggleMusic() {
         musicIcon.classList.remove('rotating');
         musicStatus.innerText = "Paused";
     }
+
 }
