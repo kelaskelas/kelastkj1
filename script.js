@@ -57,15 +57,38 @@ document.getElementById('signin-form').addEventListener('submit', (e) => {
     });
 });
 
-// 3. Event Listener Sign Up
+// --- EVENT LISTENER SIGN UP DENGAN VALIDASI PASSWORD ---
 document.getElementById('signup-form').addEventListener('submit', function(e) {
     e.preventDefault();
+    
     const role = document.querySelector('#signup-box .tab-btn.active').innerText.toLowerCase();
     const nama = e.target.querySelector('input[type="text"]').value;
     const password = document.getElementById('pass-signup').value;
+    const repeatPassword = document.getElementById('pass-repeat').value; // Ambil nilai repeat password
     const nis = (role === 'siswa') ? e.target.querySelector('input[type="number"]').value : "";
 
-    processForm({ action: 'signup', role, nama, nis, password });
+    // VALIDASI KHUSUS SISWA & GURU (Visitor kan tadi udah dihapus dari Sign Up)
+    if (role === 'siswa' || role === 'guru') {
+        if (password !== repeatPassword) {
+            showAlert("❌ Password dan Repeat Password tidak cocok, Le!", "error");
+            return; // STOP! Jangan kirim data ke server
+        }
+        
+        // Cek minimal karakter biar aman (opsional)
+        if (password.length < 3) {
+            showAlert("❌ Password terlalu pendek (minimal 3 karakter)!", "error");
+            return;
+        }
+    }
+
+    // Kalau lolos satpam di atas, baru kirim ke database
+    processForm({ 
+        action: 'signup', 
+        role: role, 
+        nama: nama, 
+        nis: nis, 
+        password: password 
+    });
 });
 
 // 4. Fungsi Tab (Switch Role)
@@ -113,3 +136,4 @@ function toggleForm() {
     document.getElementById('signup-box').classList.toggle('hidden');
 
 }
+
