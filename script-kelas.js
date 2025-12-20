@@ -20,12 +20,12 @@ window.onclick = function(event) {
 }
 
 // Fungsi Logout
+// Fungsi Logout
 function logout() {
-    // 1. Bersihkan loker browser
-    localStorage.clear();
-
-    // 2. Langsung tembak ke index.html di folder yang sama
-    window.location.href = "index.html";
+    if (confirm("Yakin mau keluar, Le?")) {
+        localStorage.clear();
+        window.location.href = "index.html";
+    }
 }
 window.onload = function() {
     // 1. Ambil data dari loker bernama 'namaLengkap'
@@ -133,3 +133,4 @@ function toggleMusic() {
     }
 
 }
+
