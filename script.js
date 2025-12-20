@@ -209,7 +209,7 @@ function switchRole(formType, role) {
             nisGroup.style.display = 'none';
             nisInput.removeAttribute('required');
             passGroup.style.display = 'none';
-            passInput.removeAttribute('required');
+            passInput.removeAttribute('none');
             repeatGroup.style.display = 'none';
         }
     }
@@ -266,4 +266,5 @@ document.getElementById('signin-form').addEventListener('submit', function(e) {
     const password = (role === 'visitor') ? "" : document.getElementById('pass-signin').value;
 
     processForm({ action: 'signin', role, nama, password });
+
 });
