@@ -1,8 +1,3 @@
-// Menghilangkan "kelas.html" dari address bar
-if (window.location.pathname.endsWith('kelas.html')) {
-    const cleanURL = window.location.pathname.replace('kelas.html', '');
-    window.history.replaceState(null, null, cleanURL);
-}
 
 // Ambil nama user dari LocalStorage (Data dari halaman login tadi)
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,12 +22,10 @@ window.onclick = function(event) {
 
 // Fungsi Logout
 function logout() {
-    localStorage.clear();
-    
-    // Ambil URL dasar tanpa nama file
-    // Hasilnya akan balik ke https://kelaskelas.github.io/kelastkj1/
-    const rootPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-    window.location.href = rootPath;
+    if (confirm("Yakin mau keluar, Le?")) {
+        localStorage.clear();
+        window.location.href = "index.html";
+    }
 }
 window.onload = function() {
     // 1. Ambil data dari loker bernama 'namaLengkap'
