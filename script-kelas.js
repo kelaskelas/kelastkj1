@@ -24,11 +24,16 @@ window.onclick = function(event) {
 
 // Fungsi Logout
 function logout() {
-    if (confirm("Yakin mau keluar, Le?")) {
-        localStorage.clear();
-        window.location.href = "index.html";
-    }
+    // 1. Hapus semua data login
+    localStorage.removeItem('userNama');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('isLoggedIn');
+
+    // 2. Arahkan balik ke halaman login utama
+    // ../ artinya keluar dari folder 'kelas' dulu baru nyari index.html
+    window.location.href = "../index.html";
 }
+
 window.onload = function() {
     // 1. Ambil data dari loker bernama 'namaLengkap'
     const clientName = localStorage.getItem('namaLengkap');
@@ -135,3 +140,4 @@ function toggleMusic() {
     }
 
 }
+
