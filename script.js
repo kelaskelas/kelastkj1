@@ -65,8 +65,30 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
         if (nis.length < 3) { 
             showAlert("NIS tidak valid!", "error");
             return;
-        }
+
+            // Cari bagian ini di dalam event listener signup-form lu
+if (result.success) {
+    showAlert(result.msg, 'success');
+
+    // CEK: Kalau dia BUKAN visitor, baru otomatis masuk ke kelas
+    if (payload.role !== 'visitor') {
+        localStorage.setItem('userNama', payload.nama);
+        localStorage.setItem('userRole', payload.role);
+        localStorage.setItem('isLoggedIn', 'true');
+
+        setTimeout(() => { 
+            window.location.href = "kelas.html"; 
+        }, 1500);
+    } else {
+        // JIKA VISITOR: Cuma reset form aja, jangan pindah halaman
+        // Biar dia tahu akunnya udah terdaftar tapi harus lewat pintu masuk (Sign In)
+        setTimeout(() => {
+            document.getElementById('signup-form').reset();
+            // Opsional: Balikin ke tab Sign In otomatis
+            document.querySelector('.auth-tabs .tab-btn[onclick*="signin"]').click();
+        }, 2000);
     }
+}
 
     // Kirim data ke processForm
     processForm({ 
@@ -265,8 +287,9 @@ document.getElementById('signin-form').addEventListener('submit', function(e) {
     // Kalau visitor, password kita set kosong aja
     const password = (role === 'visitor') ? "" : document.getElementById('pass-signin').value;
 
-    processForm({ action: 'signin', role, nama, password });
+    processForm({ action: 'signin', role, nama });
 
 });
+
 
 
