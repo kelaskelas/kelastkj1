@@ -111,4 +111,5 @@ function closeAlert() { document.getElementById('custom-alert').classList.add('h
 function toggleForm() {
     document.getElementById('signin-box').classList.toggle('hidden');
     document.getElementById('signup-box').classList.toggle('hidden');
+
 }
