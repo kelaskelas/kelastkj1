@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby4bf6JsTjsWAHoMzPjWc41hLTMH0NhRGRk4JNQau5Hw7C3VnKOmCefO0nD4u54DI08/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwnoOMqINxN1YEc9h2mFADZNPZGS92EpMWgfJMnERDV3sp22jiYUEEFsW9BWYjeuAho/exec";
 
 async function processForm(payload) {
     const btn = event.submitter;
@@ -67,7 +67,7 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
             return;
         }
     }
-    
+
     // Kirim data ke processForm
     processForm({ 
         action: 'signup', 
@@ -209,7 +209,7 @@ function switchRole(formType, role) {
             nisGroup.style.display = 'none';
             nisInput.removeAttribute('required');
             passGroup.style.display = 'none';
-            passInput.removeAttribute('none');
+            passInput.removeAttribute('required');
             repeatGroup.style.display = 'none';
         }
     }
@@ -265,10 +265,5 @@ document.getElementById('signin-form').addEventListener('submit', function(e) {
     // Kalau visitor, password kita set kosong aja
     const password = (role === 'visitor') ? "" : document.getElementById('pass-signin').value;
 
-    processForm({ action: 'signin', role, nama });
-
+    processForm({ action: 'signin', role, nama, password });
 });
-
-
-
-
