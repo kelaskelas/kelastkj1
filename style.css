@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&q=80') no-repeat center center/cover;
+}
+
+/* Background Overlay biar teks kebaca */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+/* Kotak Transparan (Glassmorphism) */
+.form-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    color: white;
+    text-align: center;
+}
+
+.hidden { display: none; }
+
+h2 { margin-bottom: 20px; font-size: 2rem; }
+
+/* Styling Tab */
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.tab-btn.active {
+    background: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+}
+
+/* Input Styling */
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    color: white;
+    outline: none;
+}
+
+input::placeholder { color: #ddd; }
+
+/* Ikon Mata */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+/* Tombol Utama */
+.btn-main {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #4facfe;
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-main:hover { transform: translateY(-2px); opacity: 0.9; }
+
+.switch-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.switch-text a {
+    color: #00f2fe;
+    text-decoration: none;
+    font-weight: bold;
+}
+/* Menghilangkan panah atas/bawah (Spin Button) di input NIS */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Untuk browser Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.3s;
+    color: white; /* Biar kontras dengan background transparan */
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+/* Overlay Background */
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    transition: 0.3s;
+}
+
+/* Kotak Notif */
+.alert-box {
+    width: 320px;
+    padding: 30px;
+    text-align: center;
+    border-radius: 20px;
+    animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.alert-box p {
+    margin: 15px 0 25px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+#alert-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+/* Warna Icon */
+.icon-success { color: #00f2fe; }
+.icon-error { color: #ff4d4d; }
+
+/* Animasi Muncul */
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.hidden {
+    display: none !important;
+}   
