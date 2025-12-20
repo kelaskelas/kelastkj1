@@ -1,3 +1,6 @@
+// Begitu halaman kelas.html dibuka, langsung hapus nama filenya dari address bar
+window.history.replaceState({}, '', '/kelas');
+
 // Ambil nama user dari LocalStorage (Data dari halaman login tadi)
 document.addEventListener('DOMContentLoaded', () => {
     const namaUser = localStorage.getItem('namaLengkap') || 'User';
@@ -130,4 +133,5 @@ function toggleMusic() {
         musicIcon.classList.remove('rotating');
         musicStatus.innerText = "Paused";
     }
+
 }
