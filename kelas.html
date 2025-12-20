@@ -120,8 +120,17 @@
     <i id="music-icon" class="fas fa-music"></i>
     <span id="music-status">Play Music</span>
 </div>
-
+<script>
+  // Cek kalau URL mengandung .html
+  if (window.location.pathname.endsWith(".html")) {
+    // Ambil nama file tanpa .html
+    var newPath = window.location.pathname.replace(".html", "");
+    // Update URL di browser tanpa reload halaman
+    window.history.replaceState(null, null, newPath);
+  }
+</script>
 
     <script src="script-kelas.js"></script>
 </body>
+
 </html>
