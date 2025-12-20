@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx9wkPhRO1XFyf1nRKzyDIMOaJZnVnkATgWPutI3YqLEQW2vQjwbiTM51dTVzqRAhxV/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyJeLg1muriLYfTR_T0cVCiUvghGh4-mWSeXFYnKBe6Itek1PseLcvYaZHMB0Sx0Hbu/exec";
 
 async function processForm(payload) {
     const btn = event.submitter;
@@ -268,3 +268,4 @@ document.getElementById('signin-form').addEventListener('submit', function(e) {
     processForm({ action: 'signin', role, nama, password });
 
 });
+
