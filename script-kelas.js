@@ -1,3 +1,9 @@
+// Menghilangkan "kelas.html" dari address bar
+if (window.location.pathname.endsWith('kelas.html')) {
+    const cleanURL = window.location.pathname.replace('kelas.html', '');
+    window.history.replaceState(null, null, cleanURL);
+}
+
 // Ambil nama user dari LocalStorage (Data dari halaman login tadi)
 document.addEventListener('DOMContentLoaded', () => {
     const namaUser = localStorage.getItem('namaLengkap') || 'User';
@@ -134,5 +140,6 @@ function toggleMusic() {
     }
 
 }
+
 
 
