@@ -20,12 +20,13 @@ window.onclick = function(event) {
 }
 
 // Fungsi Logout
-// Fungsi Logout
 function logout() {
-    if (confirm("Yakin mau keluar, Le?")) {
-        localStorage.clear();
-        window.location.href = "index.html";
-    }
+    localStorage.clear();
+    
+    // Ambil URL dasar tanpa nama file
+    // Hasilnya akan balik ke https://kelaskelas.github.io/kelastkj1/
+    const rootPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+    window.location.href = rootPath;
 }
 window.onload = function() {
     // 1. Ambil data dari loker bernama 'namaLengkap'
@@ -133,4 +134,5 @@ function toggleMusic() {
     }
 
 }
+
 
