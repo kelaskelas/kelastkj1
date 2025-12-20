@@ -110,6 +110,16 @@
     
 
 <script src="script.js"></script>
+    
+    <script>
+  // Cek kalau URL mengandung .html
+  if (window.location.pathname.endsWith(".html")) {
+    // Ambil nama file tanpa .html
+    var newPath = window.location.pathname.replace(".html", "");
+    // Update URL di browser tanpa reload halaman
+    window.history.replaceState(null, null, newPath);
+  }
+</script>
 
     <div id="custom-alert" class="alert-overlay hidden">
     <div class="alert-box glass-card">
@@ -119,4 +129,5 @@
     </div>
 </div>
 </body>
+
 </html>
