@@ -237,21 +237,30 @@ async function searchUser() {
 
         if (result.success) {
             const filtered = result.users.filter(u => u.nama.toLowerCase().includes(keyword));
-            dropdown.innerHTML = '';
+            dropdown.innerHTML = ''; // Kosongkan dulu daftar lama
 
             if (filtered.length > 0) {
                 dropdown.classList.remove('hidden');
                 filtered.forEach(user => {
-                    // Bungkus data user ke JSON string untuk dikirim ke fungsi viewProfile
                     const userData = JSON.stringify(user).replace(/"/g, '&quot;');
-                    dropdown.innerHTML += `
-                        <div class="search-item" onclick="viewProfile('${userData}')">
-                            <h5>${user.nama}</h5>
-                            <span>${user.role}</span>
-                        </div>
-                    `;
+                    
+                    // BUAT ELEMEN SECARA AMAN (ANTI HACK/XSS)
+                    const item = document.createElement('div');
+                    item.className = 'search-item';
+                    item.onclick = () => viewProfile(userData);
+
+                    const h5 = document.createElement('h5');
+                    h5.innerText = user.nama; // Pakai innerText biar aman
+
+                    const span = document.createElement('span');
+                    span.innerText = user.role; // Pakai innerText biar aman
+
+                    item.appendChild(h5);
+                    item.appendChild(span);
+                    dropdown.appendChild(item);
                 });
             } else {
+                dropdown.classList.remove('hidden');
                 dropdown.innerHTML = '<div class="search-item"><span>Tidak ditemukan</span></div>';
             }
         }
@@ -265,13 +274,14 @@ function viewProfile(userDataJson) {
     const user = JSON.parse(userDataJson);
     const modal = document.getElementById('view-profile-modal');
     
+    // Pakai .innerText supaya kode HTML/Script gak bakalan jalan, cuma jadi teks biasa
     document.getElementById('view-name').innerText = user.nama;
     document.getElementById('view-role').innerText = user.role;
     document.getElementById('view-bio').innerText = user.bio || "Warga XII TKJ 1 belum buat bio.";
     document.getElementById('view-avatar').innerText = user.nama.charAt(0).toUpperCase();
     
     modal.classList.remove('hidden');
-    document.getElementById('search-results-dropdown').classList.add('hidden'); // Tutup dropdown
+    document.getElementById('search-results-dropdown').classList.add('hidden');
 }
 
 function closeViewProfile() {
@@ -283,4 +293,5 @@ document.addEventListener('click', (e) => {
     if (!e.target.closest('.nav-search')) {
         document.getElementById('search-results-dropdown').classList.add('hidden');
     }
+
 });
