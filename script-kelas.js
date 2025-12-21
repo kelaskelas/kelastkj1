@@ -1,3 +1,19 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // --- FITUR CLEAN URL (Ngilangin .html di Address Bar) ---
+    if (window.location.pathname.endsWith('.html')) {
+        const cleanUrl = window.location.pathname.replace('.html', '');
+        window.history.replaceState(null, '', cleanUrl);
+    }
+    // -------------------------------------------------------
+
+    const namaUser = localStorage.getItem('namaLengkap') || 'Member';
+    document.getElementById('display-name').innerText = "Halo, " + namaUser;
+    
+    setTimeout(() => {
+        showAlert("Selamat datang di Dashboard Kelas, " + namaUser + "!", "success");
+    }, 500);
+});
+
 // 1. KONFIGURASI & URL DATABASE (Ganti sesuai URL Deployment Apps Script lu)
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwqF8LT4zdmqUj95aFupKS2TdcOSZ6MDvIOBbUkGiISXeK-06dX0JOLSdc2cisvtjTG/exec";
 
@@ -311,5 +327,6 @@ document.addEventListener('click', (e) => {
     }
 
 });
+
 
 
