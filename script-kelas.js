@@ -164,7 +164,7 @@ function logout() {
     setTimeout(() => {
         localStorage.removeItem('namaLengkap');
         localStorage.removeItem('isLoggedIn');
-        window.location.href = "index.html";
+        window.location.href = "#";
     }, 2000);
 }
 
@@ -311,4 +311,5 @@ document.addEventListener('click', (e) => {
     }
 
 });
+
 
