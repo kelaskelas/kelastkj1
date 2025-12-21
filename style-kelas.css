@@ -498,3 +498,148 @@ body {
 #edit-profile-modal, #view-profile-modal {
     z-index: 1000;
 }
+
+/* Container Utama Card */
+.grid-kegiatan {
+    display: flex;
+    flex-wrap: wrap;       /* Biar kalau gak muat, otomatis turun ke bawah */
+    justify-content: center; /* Card rata tengah */
+    gap: 30px;            /* Jarak antar card biar gak nempel/tindih */
+    padding: 40px 20px;
+    width: 100%;
+}
+
+/* Card Satuan */
+.card-slider-large {
+    flex: 0 1 400px;      /* Card bakal berusaha di ukuran 400px tapi fleksibel */
+    max-width: 500px;     /* Ukuran maksimal biar gak kegedean di monitor lebar */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Container Slider di dalam Card */
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 15px;
+    cursor: grab;
+}
+
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.4s ease-out;
+}
+
+.slider-wrapper img {
+    width: 100%;
+    flex-shrink: 0;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    pointer-events: none; /* Penting biar mouse drag lancar */
+}
+
+/* Titik Indikator diatas teks */
+.slider-dots {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0 10px 0;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background: #00f2fe;
+    transform: scale(1.3);
+    box-shadow: 0 0 10px #00f2fe;
+}
+
+/* Teks Keterangan */
+.card-slider-large p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 5px;
+}
+
+/* Container Utama Card */
+.grid-kegiatan {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px 20px;
+    width: 100%;
+}
+
+.card-slider-large {
+    flex: 0 1 450px; /* Ukuran gede sesuai request */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* CEGAH BLOCK BIRU */
+    user-select: none; 
+    -webkit-user-select: none;
+}
+
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 15px;
+    cursor: grab;
+    position: relative;
+}
+
+.slider-container:active {
+    cursor: grabbing;
+}
+
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slider-wrapper img {
+    width: 100%;
+    flex-shrink: 0;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    /* CEGAH NYANGKUT KARENA DRAG BAWAAN */
+    pointer-events: none; 
+    -webkit-user-drag: none;
+}
+
+/* Titik Indikator di Luar (Diatas Teks) */
+.slider-dots {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0 10px 0;
+}
+
+.dot {
+    width: 10px; height: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background: #00f2fe;
+    transform: scale(1.3);
+}

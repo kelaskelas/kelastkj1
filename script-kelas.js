@@ -1,19 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // --- FITUR CLEAN URL (Ngilangin .html di Address Bar) ---
-    if (window.location.pathname.endsWith('.html')) {
-        const cleanUrl = window.location.pathname.replace('.html', '');
-        window.history.replaceState(null, '', cleanUrl);
-    }
-    // -------------------------------------------------------
-
-    const namaUser = localStorage.getItem('namaLengkap') || 'Member';
-    document.getElementById('display-name').innerText = "Halo, " + namaUser;
-    
-    setTimeout(() => {
-        showAlert("Selamat datang di Dashboard Kelas, " + namaUser + "!", "success");
-    }, 500);
-});
-
 // 1. KONFIGURASI & URL DATABASE (Ganti sesuai URL Deployment Apps Script lu)
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwqF8LT4zdmqUj95aFupKS2TdcOSZ6MDvIOBbUkGiISXeK-06dX0JOLSdc2cisvtjTG/exec";
 
@@ -180,7 +164,7 @@ function logout() {
     setTimeout(() => {
         localStorage.removeItem('namaLengkap');
         localStorage.removeItem('isLoggedIn');
-        window.location.href = "#";
+        window.location.href = "index.html";
     }, 2000);
 }
 
@@ -205,23 +189,7 @@ async function searchUser() {
 
             filtered.forEach(user => {
                 // Kita simpan data user ke dalam string JSON biar gampang dikirim ke fungsi view
-                filtered.forEach(user => {
-    const item = document.createElement('div');
-    item.className = 'search-item';
-    
-    // Pakai fungsi anonim biar gak perlu replace &quot; yang ribet
-    item.onclick = () => viewProfile(JSON.stringify(user)); 
-
-    const h5 = document.createElement('h5');
-    h5.innerText = user.nama; 
-
-    const span = document.createElement('span');
-    span.innerText = user.role; 
-
-    item.appendChild(h5);
-    item.appendChild(span);
-    dropdown.appendChild(item);
-});
+                const userData = JSON.stringify(user).replace(/"/g, '&quot;');
                 
                 const card = `
                     <div class="card" style="width: 180px; padding: 15px;">
@@ -269,30 +237,21 @@ async function searchUser() {
 
         if (result.success) {
             const filtered = result.users.filter(u => u.nama.toLowerCase().includes(keyword));
-            dropdown.innerHTML = ''; // Kosongkan dulu daftar lama
+            dropdown.innerHTML = '';
 
             if (filtered.length > 0) {
                 dropdown.classList.remove('hidden');
                 filtered.forEach(user => {
+                    // Bungkus data user ke JSON string untuk dikirim ke fungsi viewProfile
                     const userData = JSON.stringify(user).replace(/"/g, '&quot;');
-                    
-                    // BUAT ELEMEN SECARA AMAN (ANTI HACK/XSS)
-                    const item = document.createElement('div');
-                    item.className = 'search-item';
-                    item.onclick = () => viewProfile(userData);
-
-                    const h5 = document.createElement('h5');
-                    h5.innerText = user.nama; // Pakai innerText biar aman
-
-                    const span = document.createElement('span');
-                    span.innerText = user.role; // Pakai innerText biar aman
-
-                    item.appendChild(h5);
-                    item.appendChild(span);
-                    dropdown.appendChild(item);
+                    dropdown.innerHTML += `
+                        <div class="search-item" onclick="viewProfile('${userData}')">
+                            <h5>${user.nama}</h5>
+                            <span>${user.role}</span>
+                        </div>
+                    `;
                 });
             } else {
-                dropdown.classList.remove('hidden');
                 dropdown.innerHTML = '<div class="search-item"><span>Tidak ditemukan</span></div>';
             }
         }
@@ -306,14 +265,13 @@ function viewProfile(userDataJson) {
     const user = JSON.parse(userDataJson);
     const modal = document.getElementById('view-profile-modal');
     
-    // Pakai .innerText supaya kode HTML/Script gak bakalan jalan, cuma jadi teks biasa
     document.getElementById('view-name').innerText = user.nama;
     document.getElementById('view-role').innerText = user.role;
     document.getElementById('view-bio').innerText = user.bio || "Warga XII TKJ 1 belum buat bio.";
     document.getElementById('view-avatar').innerText = user.nama.charAt(0).toUpperCase();
     
     modal.classList.remove('hidden');
-    document.getElementById('search-results-dropdown').classList.add('hidden');
+    document.getElementById('search-results-dropdown').classList.add('hidden'); // Tutup dropdown
 }
 
 function closeViewProfile() {
@@ -325,8 +283,77 @@ document.addEventListener('click', (e) => {
     if (!e.target.closest('.nav-search')) {
         document.getElementById('search-results-dropdown').classList.add('hidden');
     }
-
 });
 
+function inisialisasiSlider(sliderId, dotsId) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
 
+    const dots = document.getElementById(dotsId).querySelectorAll('.dot');
+    const container = slider.parentElement;
 
+    let isDragging = false;
+    let startX = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let currentIndex = 0;
+
+    const updateUI = () => {
+        slider.style.transition = 'transform 0.4s ease-out';
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+    };
+
+    // Fungsi mulai geser
+    const onStart = (e) => {
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+        slider.style.transition = 'none'; // Matikan animasi pas lagi ditarik biar nempel
+        
+        // Mencegah block warna biru/seleksi teks
+        if (e.type === 'mousedown') e.preventDefault(); 
+    };
+
+    // Fungsi saat ditarik
+    const onMove = (e) => {
+        if (!isDragging) return;
+        const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+        const moveDistance = ((currentX - startX) / container.offsetWidth) * 100;
+        
+        // Gerakan nempel di kursor
+        slider.style.transform = `translateX(${(currentIndex * -100) + moveDistance}%)`;
+    };
+
+    // Fungsi saat dilepas
+    const onEnd = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const endX = e.type.includes('mouse') ? e.pageX : e.changedTouches[0].pageX;
+        const diff = endX - startX;
+
+        // Sensitivitas geser: minimal 50px
+        if (diff < -50 && currentIndex < dots.length - 1) {
+            currentIndex++;
+        } else if (diff > 50 && currentIndex > 0) {
+            currentIndex--;
+        }
+
+        updateUI();
+    };
+
+    // Event Listeners
+    container.addEventListener('mousedown', onStart);
+    container.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onEnd); // Pakai window biar kalau mouse lepas container tetep ke-detect
+
+    container.addEventListener('touchstart', onStart, { passive: true });
+    container.addEventListener('touchmove', onMove, { passive: true });
+    container.addEventListener('touchend', onEnd);
+}
+
+// Jalankan Slider
+document.addEventListener('DOMContentLoaded', () => {
+    inisialisasiSlider('slider-1', 'dots-1');
+    inisialisasiSlider('slider-2', 'dots-2');
+    inisialisasiSlider('slider-3', 'dots-3');
+});
