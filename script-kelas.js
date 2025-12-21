@@ -189,7 +189,23 @@ async function searchUser() {
 
             filtered.forEach(user => {
                 // Kita simpan data user ke dalam string JSON biar gampang dikirim ke fungsi view
-                const userData = JSON.stringify(user).replace(/"/g, '&quot;');
+                filtered.forEach(user => {
+    const item = document.createElement('div');
+    item.className = 'search-item';
+    
+    // Pakai fungsi anonim biar gak perlu replace &quot; yang ribet
+    item.onclick = () => viewProfile(JSON.stringify(user)); 
+
+    const h5 = document.createElement('h5');
+    h5.innerText = user.nama; 
+
+    const span = document.createElement('span');
+    span.innerText = user.role; 
+
+    item.appendChild(h5);
+    item.appendChild(span);
+    dropdown.appendChild(item);
+});
                 
                 const card = `
                     <div class="card" style="width: 180px; padding: 15px;">
@@ -295,3 +311,4 @@ document.addEventListener('click', (e) => {
     }
 
 });
+
