@@ -491,3 +491,10 @@ body {
     background: #00f2fe; color: #000;
     border-radius: 10px; font-weight: bold;
 }
+
+#custom-alert {
+    z-index: 9999 !important; /* Biar paling depan */
+}
+#edit-profile-modal, #view-profile-modal {
+    z-index: 1000;
+}

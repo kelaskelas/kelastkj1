@@ -1,5 +1,5 @@
 // 1. KONFIGURASI & URL DATABASE (Ganti sesuai URL Deployment Apps Script lu)
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx5q_6wj7bw6evimo0XFsCe9VFi8c6Fpby1vF3AkVakcpHkdHKLiIa91kqG2ldGLl4/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwqF8LT4zdmqUj95aFupKS2TdcOSZ6MDvIOBbUkGiISXeK-06dX0JOLSdc2cisvtjTG/exec";
 
 document.addEventListener('DOMContentLoaded', () => {
     // Ambil data nama dari localStorage
@@ -42,15 +42,11 @@ function closeEditProfile() {
 }
 
 async function saveProfile() {
-    const oldName = localStorage.getItem('namaLengkap'); // Nama lama buat patokan cari di Sheet
-    const newName = document.getElementById('edit-name').value;
+    const usernameAsli = localStorage.getItem('usernameAsli');
+    const newDisplayName = document.getElementById('edit-name').value;
     const newBio = document.getElementById('edit-bio').value;
 
-    if (newName.trim() === "") {
-        showAlert("Nama tidak boleh kosong!", "error");
-        return;
-    }
-
+    closeEditProfile(); // TUTUP MODAL DULU
     showAlert("Menyimpan ke database...", "info");
 
     try {
@@ -58,29 +54,19 @@ async function saveProfile() {
             method: 'POST',
             body: JSON.stringify({
                 action: 'updateProfile',
-                oldName: oldName,
-                newName: newName,
+                usernameAsli: usernameAsli,
+                newDisplayName: newDisplayName,
                 newBio: newBio
             })
         });
-
         const result = await response.json();
-
         if (result.success) {
-            // Update juga di localStorage biar pas refresh gak balik ke nama lama
-            localStorage.setItem('namaLengkap', newName);
+            localStorage.setItem('namaLengkap', newDisplayName);
             localStorage.setItem('userBio', newBio);
-            
-            document.getElementById('display-name').innerText = "Halo, " + newName;
-            showAlert("Profil berhasil diupdate secara permanen!", "success");
-            closeEditProfile();
-        } else {
-            showAlert("Gagal update: " + result.msg, "error");
+            document.getElementById('display-name').innerText = "Halo, " + newDisplayName;
+            showAlert("Berhasil diupdate!", "success");
         }
-    } catch (err) {
-        console.error(err);
-        showAlert("Koneksi internet bermasalah.", "error");
-    }
+    } catch (e) { showAlert("Gagal koneksi", "error"); }
 }
 
 // 4. FITUR PENCARIAN TEMAN DARI DATABASE

@@ -16,10 +16,11 @@ async function processForm(payload) {
         const result = await response.json();
 
         if (result.success) {
-            // Simpan data ke localStorage agar bisa dipanggil di kelas.html
-            localStorage.setItem('namaLengkap', payload.nama);
-            localStorage.setItem('userRole', payload.role);
-            localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('namaLengkap', payload.nama); 
+    localStorage.setItem('usernameAsli', payload.nama); // <--- WAJIB ADA
+    localStorage.setItem('userRole', payload.role);
+    localStorage.setItem('isLoggedIn', 'true');
+    // ... rest of code
 
             showAlert(result.msg, 'success');
 
