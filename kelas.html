@@ -12,18 +12,39 @@
 
     <div class="background-overlay"></div>
 
-    <nav class="navbar">
-        <div class="nav-brand">XII - TKJ 1</div>
-        <div class="nav-user">
-            <span id="display-name">Memuat nama...</span>
-            <div class="settings-wrapper">
-                <i class="fas fa-cog settings-btn" onclick="toggleMenu()"></i>
-                <div id="dropdown-menu" class="dropdown-content">
-                    <a href="index.html" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Keluar</a>
-                </div>
+   <nav class="navbar">
+    <div class="nav-brand">XII - TKJ 1</div>
+
+    <div class="nav-search">
+        <div class="search-mini-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="Cari akun..." onkeyup="searchUser()">
+            <div id="search-results-dropdown" class="search-dropdown hidden"></div>
+        </div>
+    </div>
+
+    <div class="nav-user">
+        <span id="display-name" class="hide-mobile">Memuat...</span>
+        <div class="settings-wrapper">
+            <i class="fas fa-cog settings-btn" onclick="toggleMenu()"></i>
+            <div id="dropdown-menu" class="dropdown-content">
+                <a href="#" onclick="openEditProfile()"><i class="fas fa-user-edit"></i> Edit Profil</a>
+                <a href="index.html" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Keluar</a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
+
+<div id="view-profile-modal" class="alert-overlay hidden">
+    <div class="profile-card-popup glass-card">
+        <div class="avatar-circle" id="view-avatar">?</div>
+        <h3 id="view-name">Nama User</h3>
+        <span id="view-role" class="badge-role">ROLE</span>
+        <p id="view-bio">"Bio user di sini..."</p>
+        <hr style="margin: 15px 0; opacity: 0.1;">
+        <button onclick="closeViewProfile()" class="btn-main-alert">Tutup</button>
+    </div>
+</div>
 
     <div class="container-main">
         <header class="page-title">
@@ -35,7 +56,7 @@
             <div class="card card-gold">
                 <div class="card-tag">Wali Kelas</div>
                 <h3 id="wali-kelas">Reksi Parmanda S.T</h3>
-                <p>NIP. 19820310XXXXXXXX</p>
+                <p>NIP. 1994081827023100</p>
             </div>
         </div>
 
@@ -79,6 +100,8 @@
                 <p>Edrik Kwok</p>
             </div>
         </div>
+
+
         <div class="divider">KEGIATAN KELAS</div>
 
 <section class="grid-kegiatan">
@@ -111,6 +134,35 @@
     </div>
 </div>
 
+<div id="custom-alert" class="alert-overlay hidden">
+    ...
+</div>
+
+<div id="edit-profile-modal" class="alert-overlay hidden">
+    <div class="alert-box glass-card" style="width: 350px;">
+        <h3>Edit Profil</h3>
+        <div class="input-group" style="margin-top: 15px;">
+            <input type="text" id="edit-name" placeholder="Nama Baru" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.2);">
+        </div>
+        <div class="input-group">
+            <input type="text" id="edit-bio" placeholder="Bio Singkat (Contoh: Jago Networking)" style="width: 100%; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.2);">
+        </div>
+        <button onclick="saveProfile()" class="btn-main-alert">Simpan</button>
+        <button onclick="closeEditProfile()" class="btn-main-alert" style="background: #ff4d4d; margin-left: 5px;">Batal</button>
+    </div>
+</div>
+
+<div id="view-profile-modal" class="alert-overlay hidden">
+    <div class="profile-card-popup">
+        <div class="avatar-circle" id="view-avatar">?</div>
+        <h3 id="view-name" style="margin-bottom: 5px;">Nama User</h3>
+        <span id="view-role" style="font-size: 0.7rem; background: #00f2fe; color: black; padding: 2px 8px; border-radius: 10px; font-weight: bold;">ROLE</span>
+        <p id="view-bio" style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8; font-style: italic;">"Bio user di sini..."</p>
+        <hr style="margin: 15px 0; opacity: 0.2;">
+        <button onclick="closeViewProfile()" class="btn-main-alert" style="width: 100%;">Tutup</button>
+    </div>
+</div>
+
 <audio id="bg-music" loop>
     <source src="https://www.dropbox.com/scl/fi/hmhyk1cepy770fh8hii6g/Tor-Monitor-Ketua-_-Orang-Baru-Lebe-Gacor-Ecko-Show-Juan-Reza-Chesylino-Lyrics.mp3?rlkey=qnllygdrboa4j1cie2vqyskou&st=u1zak1hk&raw=1" type="audio/mpeg">
     Browser lu gak support audio.
@@ -120,17 +172,8 @@
     <i id="music-icon" class="fas fa-music"></i>
     <span id="music-status">Play Music</span>
 </div>
-<script>
-  // Cek kalau URL mengandung .html
-  if (window.location.pathname.endsWith(".html")) {
-    // Ambil nama file tanpa .html
-    var newPath = window.location.pathname.replace(".html", "");
-    // Update URL di browser tanpa reload halaman
-    window.history.replaceState(null, null, newPath);
-  }
-</script>
+
 
     <script src="script-kelas.js"></script>
 </body>
-
 </html>

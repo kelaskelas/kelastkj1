@@ -240,3 +240,254 @@ body {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+
+/* Search Bar Styling */
+.search-section {
+    margin-bottom: 50px;
+}
+
+.search-box {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto 30px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 20px 15px 45px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    color: white;
+    outline: none;
+    backdrop-filter: blur(10px);
+}
+
+.search-box i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00f2fe;
+}
+
+/* Modal Input Fix */
+.input-group {
+    margin-bottom: 15px;
+}
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0,0,0,0.2);
+    color: white;
+}
+
+/* Container Search biar ke tengah */
+.search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Mengetengahkan isi */
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.search-box {
+    position: relative;
+    width: 90%;
+    max-width: 400px; /* Diperkecil biar gak lebar kali */
+    margin: 0 auto 20px;
+}
+
+/* Hasil pencarian di tengah */
+#search-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Kartu hasil search ke tengah */
+    gap: 15px;
+    width: 100%;
+}
+
+/* Card Profile Kecil (Pop-up tengah layar) */
+.profile-card-popup {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    width: 280px; /* Ukuran pas, gak kegedean */
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.avatar-circle {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Navbar adjustment */
+.navbar {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* Membagi navbar jadi 3 kolom */
+    align-items: center;
+    gap: 10px;
+}
+
+/* Container Search di Tengah */
+.nav-search {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.search-mini-box {
+    position: relative;
+    width: 100%;
+    max-width: 300px; /* Ukuran mungil */
+}
+
+.search-mini-box input {
+    width: 100%;
+    padding: 8px 15px 8px 35px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    color: white;
+    font-size: 0.85rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.search-mini-box input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #00f2fe;
+}
+
+.search-mini-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: #00f2fe;
+}
+
+/* Dropdown Hasil Search yang melayang */
+.search-dropdown {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 2000;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.search-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.search-item:hover {
+    background: rgba(0, 242, 254, 0.2);
+}
+
+.search-item h5 { font-size: 0.9rem; margin: 0; }
+.search-item span { font-size: 0.7rem; color: #00f2fe; }
+
+/* Sembunyikan nama di HP biar gak sempit */
+@media (max-width: 600px) {
+    .hide-mobile { display: none; }
+    .navbar { grid-template-columns: auto 1fr auto; }
+}
+
+/* Posisi Pencarian Tengah Navbar */
+.nav-search {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.search-mini-box {
+    position: relative;
+    width: 250px; /* Ukuran mungil tapi pas */
+}
+
+/* Dropdown Daftar Nama */
+.search-dropdown {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    background: rgba(30, 30, 30, 0.9);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.search-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-item:hover { background: rgba(0, 242, 254, 0.2); }
+.search-item h5 { margin: 0; font-size: 0.9rem; color: #fff; }
+.search-item span { font-size: 0.7rem; color: #00f2fe; }
+
+/* Modal Telusuri Akun (Tengah) */
+.profile-card-popup {
+    width: 300px;
+    padding: 25px;
+    text-align: center;
+    border-radius: 20px;
+    animation: fadeInScale 0.3s ease;
+}
+
+@keyframes fadeInScale {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.avatar-circle {
+    width: 60px; height: 60px;
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; font-weight: bold; color: white;
+}
+
+.badge-role {
+    font-size: 0.7rem; padding: 2px 10px;
+    background: #00f2fe; color: #000;
+    border-radius: 10px; font-weight: bold;
+}
