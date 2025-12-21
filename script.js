@@ -26,7 +26,7 @@ async function processForm(payload) {
 
             // Redirect jika Sign In atau jika Visitor (Visitor gak perlu Sign Up)
             if (payload.action === 'signin' || payload.role === 'visitor') {
-                setTimeout(() => { window.location.href = "kelas.html"; }, 1500);
+                setTimeout(() => { window.location.href = "#"; }, 1500);
             } else {
                 // Balik ke login setelah daftar (buat Siswa/Guru)
                 setTimeout(() => { toggleForm(); }, 1500);
@@ -135,4 +135,5 @@ function closeAlert() { document.getElementById('custom-alert').classList.add('h
 function toggleForm() {
     document.getElementById('signin-box').classList.toggle('hidden');
     document.getElementById('signup-box').classList.toggle('hidden');
+
 }
