@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyr6G3SXEhPYYSfcgZ225-XxSDvTrQe3fQ0tqBMIwlg5GZKIidYJDwKwAxWkzG1M3Jb/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyWDq9SS8eky87yttb8ybd21LPZ5FIoEAEwdtlC7w8nk2i9j5A1zyzD6N8mmjcwKUFb/exec";
 
 // 1. Fungsi Utama Kirim Data
 async function processForm(payload) {
@@ -15,43 +15,21 @@ async function processForm(payload) {
 
         const result = await response.json();
 
-   // ... di dalam async function processForm(payload)
-    // Cari bagian result.success di dalam processForm
+        // Di dalam script.js fungsi processForm
+// Di dalam script.js pada fungsi processForm bagian result.success
 if (result.success) {
-    // 1. Simpan Status Login & Role
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userRole', payload.role);
+    // Hapus total data lama sebelum simpan yang baru
+    localStorage.clear(); 
+
+    // Simpan data dari database hasil kiriman server (result)
+    localStorage.setItem('namaLengkap', result.displayName || payload.nama); 
+    localStorage.setItem('userBio', result.bio || ""); // Bio akan kosong jika akun baru
     localStorage.setItem('usernameAsli', payload.nama); 
-
-    // 2. Simpan Data Profil yang ditarik dari Database
-    // Jika server kirim userData, pakai itu. Jika tidak (visitor baru), pakai nama input.
-    const finalName = (result.userData && result.userData.displayName) ? result.userData.displayName : payload.nama;
-    const finalBio = (result.userData && result.userData.bio) ? result.userData.bio : "";
-
-    localStorage.setItem('namaLengkap', finalName);
-    localStorage.setItem('userBio', finalBio);
+    localStorage.setItem('userRole', payload.role);
+    localStorage.setItem('isLoggedIn', 'true');
 
     showAlert(result.msg, 'success');
     
-    if (payload.action === 'signin' || payload.role === 'visitor') {
-        setTimeout(() => { window.location.href = "kelas.html"; }, 1500);
-    }
-        
-    // Simpan Username Asli (untuk ID unik saat update nanti)
-    localStorage.setItem('usernameAsli', payload.nama); 
-    
-    // Ambil Display Name dari database (jika ada), kalau tidak ada pakai nama asli
-    const displayName = result.userData && result.userData.displayName ? result.userData.displayName : payload.nama;
-    localStorage.setItem('namaLengkap', displayName); 
-    
-    // Simpan Bio dari database (jika ada)
-    const bio = result.userData && result.userData.bio ? result.userData.bio : "";
-    localStorage.setItem('userBio', bio);
-
-    localStorage.setItem('userRole', payload.role);
-    localStorage.setItem('isLoggedIn', 'true');
-    
-    showAlert(result.msg, 'success');
     // ... rest of code
 
             showAlert(result.msg, 'success');
@@ -86,6 +64,7 @@ document.getElementById('signin-form').addEventListener('submit', (e) => {
         action: 'signin', 
         role: role, 
         nama: namaInput, 
+        // Tetap kirim string ini agar backend mengenali sebagai visitor
         password: (role === 'visitor') ? "VISITOR_PASS" : passInput 
     });
 });
@@ -99,6 +78,8 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
     const password = document.getElementById('pass-signup').value;
     const repeatPassword = document.getElementById('pass-repeat').value; // Ambil nilai repeat password
     const nis = (role === 'siswa') ? e.target.querySelector('input[type="number"]').value : "";
+
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
 
     // VALIDASI KHUSUS SISWA & GURU (Visitor kan tadi udah dihapus dari Sign Up)
     if (role === 'siswa' || role === 'guru') {
@@ -121,6 +102,16 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
         nama: nama, 
         nis: nis, 
         password: password 
+    });
+});
+
+processForm({ 
+        action: 'signup', 
+        role: role, 
+        nama: nama, 
+        nis: nis, 
+        password: password,
+        bio: "" // <--- TAMBAHKAN INI biar akun baru bionya kosong
     });
 });
 
@@ -167,7 +158,4 @@ function closeAlert() { document.getElementById('custom-alert').classList.add('h
 function toggleForm() {
     document.getElementById('signin-box').classList.toggle('hidden');
     document.getElementById('signup-box').classList.toggle('hidden');
-
 }
-
-

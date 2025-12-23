@@ -1,20 +1,47 @@
 // 1. KONFIGURASI & URL DATABASE (Ganti sesuai URL Deployment Apps Script lu)
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJdnmzK-EtgU7MIna1K3vkzRux98l1ZwmQKl-88uYsfDj-FDInYDc5VMQPu05D_IVQ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyWDq9SS8eky87yttb8ybd21LPZ5FIoEAEwdtlC7w8nk2i9j5A1zyzD6N8mmjcwKUFb/exec";
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Selalu prioritaskan nama yang sudah di-update di localStorage
     const namaUser = localStorage.getItem('namaLengkap') || 'Member';
-    const bioUser = localStorage.getItem('userBio') || ''; // Ambil bio
+    const userBio = localStorage.getItem('userBio') || 'Belum ada bio.';
     
+    // Update UI
     document.getElementById('display-name').innerText = "Halo, " + namaUser;
     
-    // Jika ada elemen bio di dashboard (opsional), tampilkan juga
-    const bioDisplay = document.getElementById('display-bio');
-    if(bioDisplay) bioDisplay.innerText = bioUser;
+    // Jika ada elemen bio di dashboard, update juga
+    const bioElement = document.getElementById('view-bio');
+    if(bioElement) bioElement.innerText = userBio;
 
     setTimeout(() => {
-        showAlert("Selamat datang di Dashboard Kelas, " + namaUser + "!", "success");
+        showAlert("Selamat datang kembali, " + namaUser + "!", "success");
     }, 500);
 });
+
+// Perbaiki fungsi simpan profil agar konsisten
+function saveProfile() {
+    const newName = document.getElementById('edit-name').value;
+    const newBio = document.getElementById('edit-bio').value;
+
+    if (newName.trim() === "") {
+        showAlert("Nama tidak boleh kosong!", "error");
+        return;
+    }
+
+    // Simpan ke LocalStorage agar saat refresh tidak balik ke nama lama
+    localStorage.setItem('namaLengkap', newName);
+    localStorage.setItem('userBio', newBio);
+
+    // Update UI seketika
+    document.getElementById('display-name').innerText = "Halo, " + newName;
+    
+    // Tutup modal dan beri notif
+    closeEditProfile();
+    showAlert("Profil berhasil diperbarui!", "success");
+
+    // OPTIONAL: Kirim ke Google Sheets juga biar di database berubah
+    // updateDatabase(newName, newBio); 
+}
 
 // 2. FUNGSI DROPDOWN & MENU
 function toggleMenu() {
@@ -50,7 +77,7 @@ async function saveProfile() {
     const newDisplayName = document.getElementById('edit-name').value;
     const newBio = document.getElementById('edit-bio').value;
 
-    closeEditProfile();
+    closeEditProfile(); // TUTUP MODAL DULU
     showAlert("Menyimpan ke database...", "info");
 
     try {
@@ -65,18 +92,12 @@ async function saveProfile() {
         });
         const result = await response.json();
         if (result.success) {
-            // Update Local Storage
             localStorage.setItem('namaLengkap', newDisplayName);
             localStorage.setItem('userBio', newBio);
-            
-            // Update UI Langsung
             document.getElementById('display-name').innerText = "Halo, " + newDisplayName;
-            
             showAlert("Berhasil diupdate!", "success");
         }
-    } catch (e) { 
-        showAlert("Gagal koneksi", "error"); 
-    }
+    } catch (e) { showAlert("Gagal koneksi", "error"); }
 }
 
 // 4. FITUR PENCARIAN TEMAN DARI DATABASE
@@ -169,85 +190,31 @@ function closeAlert() {
     document.getElementById('custom-alert').classList.add('hidden');
 }
 
+// Update fungsi logout biar bener-bener bersih
 function logout() {
     showAlert("Kamu akan keluar dari akun...", "info");
     setTimeout(() => {
-        // Bersihkan semua data spesifik akun
-        localStorage.removeItem('namaLengkap');
-        localStorage.removeItem('usernameAsli');
-        localStorage.removeItem('userBio');
-        localStorage.removeItem('userRole');
-        localStorage.removeItem('isLoggedIn');
+        localStorage.clear(); // <--- PAKAI INI, jangan satu-satu biar gak ada yang nyangkut
         window.location.href = "index.html";
     }, 2000);
 }
 
-async function saveProfile() {
-    const usernameAsli = localStorage.getItem('usernameAsli');
-    const role = localStorage.getItem('userRole');
-    const newDisplayName = document.getElementById('edit-name').value;
-    const newBio = document.getElementById('edit-bio').value;
-
-    closeEditProfile();
-    showAlert("Menyimpan perubahan...", "info");
-
-    try {
-        const response = await fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'updateProfile',
-                role: role,
-                usernameAsli: usernameAsli,
-                newDisplayName: newDisplayName,
-                newBio: newBio
-            })
-        });
-        const result = await response.json();
-        if (result.success) {
-            localStorage.setItem('namaLengkap', newDisplayName);
-            localStorage.setItem('userBio', newBio);
-            document.getElementById('display-name').innerText = "Halo, " + newDisplayName;
-            showAlert("Profil berhasil diupdate!", "success");
-        }
-    } catch (e) { showAlert("Gagal koneksi", "error"); }
-}
-
-// Fungsi untuk cari user (update bagian button-nya)
-async function searchUser() {
-    const keyword = document.getElementById('search-input').value.toLowerCase();
-    const resultsContainer = document.getElementById('search-results');
+// Update DOMContentLoaded agar selalu ambil yang terbaru
+document.addEventListener('DOMContentLoaded', () => {
+    const namaUser = localStorage.getItem('namaLengkap') || 'Member';
+    const bioUser = localStorage.getItem('userBio') || 'Warga XII TKJ 1 belum buat bio.';
     
-    if (keyword.length < 2) {
-        resultsContainer.innerHTML = '';
-        return;
-    }
+    // Update Nama di Header
+    document.getElementById('display-name').innerText = "Halo, " + namaUser;
+    
+    // Update Bio di Modal Profil (jika ada elemennya)
+    const bioText = document.getElementById('view-bio');
+    if (bioText) bioText.innerText = bioUser;
 
-    try {
-        const response = await fetch(`${WEB_APP_URL}?action=getUsers`);
-        const result = await response.json();
-
-        if (result.success) {
-            const users = result.users;
-            const filtered = users.filter(u => u.nama.toLowerCase().includes(keyword));
-            resultsContainer.innerHTML = '';
-
-            filtered.forEach(user => {
-                // Kita simpan data user ke dalam string JSON biar gampang dikirim ke fungsi view
-                const userData = JSON.stringify(user).replace(/"/g, '&quot;');
-                
-                const card = `
-                    <div class="card" style="width: 180px; padding: 15px;">
-                        <h4 style="font-size: 0.9rem;">${user.nama}</h4>
-                        <button onclick="viewProfile('${userData}')" style="margin-top: 10px; padding: 5px 10px; font-size: 0.7rem; cursor: pointer; border-radius: 5px; border: none; background: #00f2fe; color: black; font-weight: bold;">Lihat Profil</button>
-                    </div>
-                `;
-                resultsContainer.innerHTML += card;
-            });
-        }
-    } catch (err) {
-        console.error("Gagal cari:", err);
-    }
-}
+    setTimeout(() => {
+        showAlert("Selamat datang kembali, " + namaUser + "!", "success");
+    }, 500);
+});
 
 // Fungsi untuk buka modal intip profil
 function viewProfile(userDataJson) {
@@ -400,6 +367,4 @@ document.addEventListener('DOMContentLoaded', () => {
     inisialisasiSlider('slider-1', 'dots-1');
     inisialisasiSlider('slider-2', 'dots-2');
     inisialisasiSlider('slider-3', 'dots-3');
-
 });
-
