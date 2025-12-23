@@ -1,12 +1,16 @@
 // 1. KONFIGURASI & URL DATABASE (Ganti sesuai URL Deployment Apps Script lu)
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwqF8LT4zdmqUj95aFupKS2TdcOSZ6MDvIOBbUkGiISXeK-06dX0JOLSdc2cisvtjTG/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwKC5A1cnwSwydCFQYmkuRak4DE5GeW0YTUZCukOVzEXPBvXUYbiJJxQtywJlWh5eD8/exec";
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Ambil data nama dari localStorage
     const namaUser = localStorage.getItem('namaLengkap') || 'Member';
+    const bioUser = localStorage.getItem('userBio') || ''; // Ambil bio
+    
     document.getElementById('display-name').innerText = "Halo, " + namaUser;
     
-    // Munculkan alert penyambutan
+    // Jika ada elemen bio di dashboard (opsional), tampilkan juga
+    const bioDisplay = document.getElementById('display-bio');
+    if(bioDisplay) bioDisplay.innerText = bioUser;
+
     setTimeout(() => {
         showAlert("Selamat datang di Dashboard Kelas, " + namaUser + "!", "success");
     }, 500);
@@ -46,7 +50,7 @@ async function saveProfile() {
     const newDisplayName = document.getElementById('edit-name').value;
     const newBio = document.getElementById('edit-bio').value;
 
-    closeEditProfile(); // TUTUP MODAL DULU
+    closeEditProfile();
     showAlert("Menyimpan ke database...", "info");
 
     try {
@@ -61,12 +65,18 @@ async function saveProfile() {
         });
         const result = await response.json();
         if (result.success) {
+            // Update Local Storage
             localStorage.setItem('namaLengkap', newDisplayName);
             localStorage.setItem('userBio', newBio);
+            
+            // Update UI Langsung
             document.getElementById('display-name').innerText = "Halo, " + newDisplayName;
+            
             showAlert("Berhasil diupdate!", "success");
         }
-    } catch (e) { showAlert("Gagal koneksi", "error"); }
+    } catch (e) { 
+        showAlert("Gagal koneksi", "error"); 
+    }
 }
 
 // 4. FITUR PENCARIAN TEMAN DARI DATABASE
@@ -162,10 +172,44 @@ function closeAlert() {
 function logout() {
     showAlert("Kamu akan keluar dari akun...", "info");
     setTimeout(() => {
+        // Bersihkan semua data spesifik akun
         localStorage.removeItem('namaLengkap');
+        localStorage.removeItem('usernameAsli');
+        localStorage.removeItem('userBio');
+        localStorage.removeItem('userRole');
         localStorage.removeItem('isLoggedIn');
         window.location.href = "index.html";
     }, 2000);
+}
+
+async function saveProfile() {
+    const usernameAsli = localStorage.getItem('usernameAsli');
+    const role = localStorage.getItem('userRole');
+    const newDisplayName = document.getElementById('edit-name').value;
+    const newBio = document.getElementById('edit-bio').value;
+
+    closeEditProfile();
+    showAlert("Menyimpan perubahan...", "info");
+
+    try {
+        const response = await fetch(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'updateProfile',
+                role: role,
+                usernameAsli: usernameAsli,
+                newDisplayName: newDisplayName,
+                newBio: newBio
+            })
+        });
+        const result = await response.json();
+        if (result.success) {
+            localStorage.setItem('namaLengkap', newDisplayName);
+            localStorage.setItem('userBio', newBio);
+            document.getElementById('display-name').innerText = "Halo, " + newDisplayName;
+            showAlert("Profil berhasil diupdate!", "success");
+        }
+    } catch (e) { showAlert("Gagal koneksi", "error"); }
 }
 
 // Fungsi untuk cari user (update bagian button-nya)
