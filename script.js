@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbypZsJVpCO06Bgmu4Ihm9AUzt6jzLOY3ODnUJgsZUPy1F25KaOkcapE5sbHJ63UQ9pz/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzgML-kwzOwg2iekNUqzS94BRC2c3TXQfmDAKxzurwx-jH2lYD0hltsU_pQFzLzrN_C/exec";
 
 // 1. Fungsi Utama Kirim Data
 async function processForm(payload) {
@@ -169,3 +169,4 @@ function toggleForm() {
     document.getElementById('signup-box').classList.toggle('hidden');
 
 }
+
