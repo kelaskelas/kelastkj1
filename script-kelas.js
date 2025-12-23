@@ -1,5 +1,5 @@
 // 1. KONFIGURASI & URL DATABASE (Ganti sesuai URL Deployment Apps Script lu)
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzgML-kwzOwg2iekNUqzS94BRC2c3TXQfmDAKxzurwx-jH2lYD0hltsU_pQFzLzrN_C/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJdnmzK-EtgU7MIna1K3vkzRux98l1ZwmQKl-88uYsfDj-FDInYDc5VMQPu05D_IVQ/exec";
 
 document.addEventListener('DOMContentLoaded', () => {
     const namaUser = localStorage.getItem('namaLengkap') || 'Member';
@@ -402,3 +402,4 @@ document.addEventListener('DOMContentLoaded', () => {
     inisialisasiSlider('slider-3', 'dots-3');
 
 });
+
