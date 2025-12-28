@@ -1,5 +1,5 @@
 // 1. KONFIGURASI & URL DATABASE (Ganti sesuai URL Deployment Apps Script lu)
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyWDq9SS8eky87yttb8ybd21LPZ5FIoEAEwdtlC7w8nk2i9j5A1zyzD6N8mmjcwKUFb/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz1uCMubU5WEt1ef3katkRte05nKiw_oQ5ylRNB-ww-y9sBiCci1DsO30n9GKby9XYO/exec";
 
 document.addEventListener('DOMContentLoaded', () => {
     // Selalu prioritaskan nama yang sudah di-update di localStorage
@@ -247,27 +247,38 @@ async function searchUser() {
         const result = await response.json();
 
         if (result.success) {
-            const filtered = result.users.filter(u => u.nama.toLowerCase().includes(keyword));
+            // PERBAIKAN: Cari berdasarkan Username Asli ATAU Nama Display
+            const filtered = result.users.filter(u => {
+                const matchUsername = u.username && u.username.toLowerCase().includes(keyword);
+                const matchDisplay = u.nama && u.nama.toLowerCase().includes(keyword);
+                return matchUsername || matchDisplay;
+            });
+
             dropdown.innerHTML = '';
 
             if (filtered.length > 0) {
                 dropdown.classList.remove('hidden');
                 filtered.forEach(user => {
-                    // Bungkus data user ke JSON string untuk dikirim ke fungsi viewProfile
                     const userData = JSON.stringify(user).replace(/"/g, '&quot;');
+                    
                     dropdown.innerHTML += `
                         <div class="search-item" onclick="viewProfile('${userData}')">
-                            <h5>${user.nama}</h5>
-                            <span>${user.role}</span>
+                            <div style="display: flex; flex-direction: column;">
+                                <strong style="color: #fff;">${user.nama}</strong>
+                                <small style="color: #00f2fe; font-size: 0.7rem; opacity: 0.8;">
+                                    ID: @${user.username} (${user.role})
+                                </small>
+                            </div>
                         </div>
                     `;
                 });
             } else {
-                dropdown.innerHTML = '<div class="search-item"><span>Tidak ditemukan</span></div>';
+                dropdown.innerHTML = '<div class="search-item"><span>Akun tidak ditemukan</span></div>';
+                dropdown.classList.remove('hidden');
             }
         }
     } catch (err) {
-        console.error("Gagal ambil data:", err);
+        console.error("Gagal mencari:", err);
     }
 }
 
