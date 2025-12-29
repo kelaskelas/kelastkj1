@@ -1,4 +1,4 @@
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyWDq9SS8eky87yttb8ybd21LPZ5FIoEAEwdtlC7w8nk2i9j5A1zyzD6N8mmjcwKUFb/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzpfOxC3Xc6UAPFi8wHnir2Y64d1Bd9t9HlbtQwHRTQrL2cBtEWCAVEHVHs1gPKsDYF/exec";
 
 // 1. Fungsi Utama Kirim Data
 async function processForm(payload) {
