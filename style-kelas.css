@@ -100,13 +100,32 @@ body {
     font-weight: bold; letter-spacing: 5px; opacity: 0.5;
 }
 
+/* Update Grid Seksi biar sejajar 3 kolom */
 .grid-seksi {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Kita kunci jadi 3 kolom kalau di layar lebar */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 20px;
+    width: 100%;
+    margin-top: 20px;
 }
 
-.seksi-item i { font-size: 2rem; margin-bottom: 15px; color: #00f2fe; }
+/* Biar card seksi nggak memanjang ke bawah */
+.seksi-item {
+    min-width: unset !important; /* Hapus batasan min-width sebelumnya */
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Responsive: Kalau di HP baru jadi 1 atau 2 kolom */
+@media (max-width: 768px) {
+    .grid-seksi {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
 
 /* Overlay Alert Tengah Layar */
 .alert-overlay {
@@ -642,4 +661,89 @@ body {
 .dot.active {
     background: #00f2fe;
     transform: scale(1.3);
+}
+
+/* Styling Foto Anggota */
+.member-photo {
+    width: 100px;
+    height: 100px;
+    margin: 10px auto 15px;
+    border-radius: 50%;
+    border: 3px solid #00f2fe;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.member-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Biar muka gak gepeng */
+    transition: 0.5s;
+}
+
+/* Ukuran lebih kecil untuk sekretaris/bendahara */
+.member-photo.small {
+    width: 80px;
+    height: 80px;
+}
+
+/* Efek pas card di hover */
+.card:hover .member-photo {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px #00f2fe;
+}
+
+.card-gold .member-photo {
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.card-gold:hover .member-photo {
+    box-shadow: 0 0 25px #ffd700;
+}
+
+/* Penyesuaian khusus untuk Seksi Bidang */
+.seksi-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.seksi-item i {
+    font-size: 1.2rem; /* Ikon diperkecil dikit karena sudah ada foto */
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+.seksi-item h4 {
+    margin-top: 5px;
+    font-size: 1rem;
+}
+
+/* Biar foto di seksi bidang tetap rapi di grid */
+.grid-seksi {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+/* Warna Tambahan untuk Mading */
+.card-purple {
+    border-left: 5px solid #bd00ff;
+}
+
+.card-purple .member-photo {
+    border-color: #bd00ff;
+    box-shadow: 0 0 15px rgba(189, 0, 255, 0.5);
+}
+
+.card-purple:hover .member-photo {
+    box-shadow: 0 0 25px #bd00ff;
+}
+
+.card-purple i {
+    color: #bd00ff;
 }
