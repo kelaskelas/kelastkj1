@@ -380,36 +380,43 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// CONFIGURATION: Daftar 2 Video Lu
-const myVideos = [
-    { src: "WhatsApp Video 2026-03-27 at 17.55.29.mp4", title: "Goodbye Sir." },
-    { src: "SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4", title: "Seru-Seruan" }
+// Ganti link di bawah dengan link Dropbox lu (Wajib akhiran &raw=1)
+const videoPlaylist = [
+    { src: "https://www.dropbox.com/scl/fi/8tbq62b3gb6un7lqz48wg/WhatsApp-Video-2026-03-27-at-17.55.29.mp4?rlkey=42jlniqt6k3irdjptu07dl2w5&st=puq9e0pn&raw=1", title: "Memory 1: XII TKJ 1" },
+    { src: "https://www.dropbox.com/scl/fi/3nfbx8p4cnvlqxe3g871w/SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4?rlkey=ybvc5wzdgd85ngjljk5lamz0a&st=7bbmlk3y&raw=1", title: "Memory 2: Momen Seru" }
 ];
 
-let vidIndex = 0;
-const vidPlayer = document.getElementById('main-video');
-const vidWrapper = document.getElementById('video-wrapper');
+let currentVidIndex = 0;
+const vid = document.getElementById('main-video');
 const vidTitle = document.getElementById('video-title');
+const muteBtn = document.getElementById('mute-btn');
+const muteIcon = muteBtn.querySelector('i');
 
-if (vidPlayer) {
-    vidPlayer.addEventListener('ended', () => {
-        // 1. Efek Fade Out
-        vidWrapper.classList.add('fade-out');
+if (vid) {
+    // Fungsi Toggle Mute
+    muteBtn.addEventListener('click', () => {
+        vid.muted = !vid.muted;
+        if (vid.muted) {
+            muteIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+            muteBtn.style.background = "rgba(0, 242, 254, 0.6)";
+        } else {
+            muteIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+            muteBtn.style.background = "#00f2fe";
+        }
+    });
 
-        setTimeout(() => {
-            // 2. Ganti Index (Looping 2 Video)
-            vidIndex = (vidIndex + 1) % myVideos.length;
+    // Auto Next Video
+    vid.addEventListener('ended', () => {
+        currentVidIndex = (currentVidIndex + 1) % videoPlaylist.length;
+        
+        // Simpan status mute saat ini supaya pas ganti video gak balik mute lagi
+        const isCurrentlyMuted = vid.muted;
 
-            // 3. Update Source & Text
-            vidPlayer.src = myVideos[vidIndex].src;
-            vidTitle.innerText = myVideos[vidIndex].title;
-
-            // 4. Load & Play lagi
-            vidPlayer.load();
-            vidPlayer.play().catch(err => console.log("Autoplay ditahan browser: ", err));
-
-            // 5. Fade In Kembali
-            vidWrapper.classList.remove('fade-out');
-        }, 600); 
+        vid.src = videoPlaylist[currentVidIndex].src;
+        vidTitle.innerText = videoPlaylist[currentVidIndex].title;
+        
+        vid.load();
+        vid.muted = isCurrentlyMuted; // Pakai status terakhir
+        vid.play();
     });
 }
