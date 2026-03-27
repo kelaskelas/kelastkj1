@@ -379,3 +379,40 @@ document.addEventListener('DOMContentLoaded', () => {
     inisialisasiSlider('slider-2', 'dots-2');
     inisialisasiSlider('slider-3', 'dots-3');
 });
+
+
+// 7. FITUR AUTO-NEXT VIDEO PLAYLIST
+const videoList = [
+    { src: "URL_VIDEO_1_LU.mp4", title: "Kebersamaan XII TKJ 1" },
+    { src: "URL_VIDEO_2_LU.mp4", title: "Momen Seru di Kelas" },
+    { src: "URL_VIDEO_3_LU.mp4", title: "Eksplorasi PI" }
+];
+
+let currentVideoIndex = 0;
+const videoPlayer = document.getElementById('main-video');
+const videoWrapper = document.getElementById('video-wrapper');
+const videoTitle = document.getElementById('video-title');
+
+if (videoPlayer) {
+    videoPlayer.onended = function() {
+        // Jalankan efek fade out
+        videoWrapper.classList.add('fade-out');
+
+        setTimeout(() => {
+            currentVideoIndex++;
+            if (currentVideoIndex >= videoList.length) {
+                currentVideoIndex = 0; // Balik ke video pertama kalau habis
+            }
+
+            // Ganti source video dan judul
+            videoPlayer.src = videoList[currentVideoIndex].src;
+            videoTitle.innerText = videoList[currentVideoIndex].title;
+            
+            videoPlayer.load();
+            videoPlayer.play();
+
+            // Balikin opacity (fade in)
+            videoWrapper.classList.remove('fade-out');
+        }, 800); // Harus sama dengan durasi transition di CSS
+    };
+}
