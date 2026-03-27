@@ -380,37 +380,36 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// 7. FITUR AUTO-NEXT VIDEO PLAYLIST
-const videoList = [
-    { src: "WhatsApp Video 2026-03-27 at 17.55.29.mp4", title: "Kebersamaan XII TKJ 1" },
-    { src: "SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4", title: "Momen Seru di Kelas" },
+// CONFIGURATION: Daftar 2 Video Lu
+const myVideos = [
+    { src: "WhatsApp Video 2026-03-27 at 17.55.29.mp4", title: "Goodbye Sir." },
+    { src: "SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4", title: "Seru-Seruan" }
 ];
 
-let currentVideoIndex = 0;
-const videoPlayer = document.getElementById('main-video');
-const videoWrapper = document.getElementById('video-wrapper');
-const videoTitle = document.getElementById('video-title');
+let vidIndex = 0;
+const vidPlayer = document.getElementById('main-video');
+const vidWrapper = document.getElementById('video-wrapper');
+const vidTitle = document.getElementById('video-title');
 
-if (videoPlayer) {
-    videoPlayer.onended = function() {
-        // Jalankan efek fade out
-        videoWrapper.classList.add('fade-out');
+if (vidPlayer) {
+    vidPlayer.addEventListener('ended', () => {
+        // 1. Efek Fade Out
+        vidWrapper.classList.add('fade-out');
 
         setTimeout(() => {
-            currentVideoIndex++;
-            if (currentVideoIndex >= videoList.length) {
-                currentVideoIndex = 0; // Balik ke video pertama kalau habis
-            }
+            // 2. Ganti Index (Looping 2 Video)
+            vidIndex = (vidIndex + 1) % myVideos.length;
 
-            // Ganti source video dan judul
-            videoPlayer.src = videoList[currentVideoIndex].src;
-            videoTitle.innerText = videoList[currentVideoIndex].title;
-            
-            videoPlayer.load();
-            videoPlayer.play();
+            // 3. Update Source & Text
+            vidPlayer.src = myVideos[vidIndex].src;
+            vidTitle.innerText = myVideos[vidIndex].title;
 
-            // Balikin opacity (fade in)
-            videoWrapper.classList.remove('fade-out');
-        }, 800); // Harus sama dengan durasi transition di CSS
-    };
+            // 4. Load & Play lagi
+            vidPlayer.load();
+            vidPlayer.play().catch(err => console.log("Autoplay ditahan browser: ", err));
+
+            // 5. Fade In Kembali
+            vidWrapper.classList.remove('fade-out');
+        }, 600); 
+    });
 }
