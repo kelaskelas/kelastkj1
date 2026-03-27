@@ -380,63 +380,43 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// Ganti link di bawah dengan link Dropbox lu (Wajib akhiran &raw=1)
 const videoPlaylist = [
-    { 
-        src: "https://www.dropbox.com/scl/fi/woxad3brd4ul9vf1xbr0t/SnapInsta.to_AQN0heJhKJVWTlqInWA8-YF_8hb2Pc7SNf4_fnvajis6M9zLH9g__Ff_7zVpAhtnDT2odsP19akJeZkVYonHJj2b.mp4?rlkey=5gjhp5xtd10ngnw8ax1bqrr3y&st=po8lxu4o&raw=1", 
-        title: "Damn." 
-    },
-    { 
-        src: "https://www.dropbox.com/scl/fi/3nfbx8p4cnvlqxe3g871w/SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4?rlkey=ybvc5wzdgd85ngjljk5lamz0a&st=ycnrk7am&raw=1", 
-        title: "SSJ (Seru-Seruan Aja)." 
-    }
+    { src: "https://www.dropbox.com/scl/fi/woxad3brd4ul9vf1xbr0t/SnapInsta.to_AQN0heJhKJVWTlqInWA8-YF_8hb2Pc7SNf4_fnvajis6M9zLH9g__Ff_7zVpAhtnDT2odsP19akJeZkVYonHJj2b.mp4?rlkey=5gjhp5xtd10ngnw8ax1bqrr3y&st=q6hdmyj7&raw=1", title: "Damn." },
+    { src: "https://www.dropbox.com/scl/fi/3nfbx8p4cnvlqxe3g871w/SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4?rlkey=ybvc5wzdgd85ngjljk5lamz0a&st=qixoio4x&raw=1", title: "SSJ (Seru-Seruan aja)." }
 ];
 
-let currentIdx = 0;
-const videoElem = document.getElementById('main-video');
-const titleElem = document.getElementById('video-title');
-const btnMute = document.getElementById('mute-btn');
+let currentVidIndex = 0;
+const vid = document.getElementById('main-video');
+const vidTitle = document.getElementById('video-title');
+const muteBtn = document.getElementById('mute-btn');
+const muteIcon = muteBtn.querySelector('i');
 
-if (videoElem) {
-    // PAKSA JALAN SAAT LOAD
-    window.addEventListener('load', () => {
-        videoElem.play().catch(() => {
-            console.log("Autoplay diblokir, nunggu interaksi user...");
-        });
-    });
-
-    // AUTO NEXT & LOOP
-    videoElem.addEventListener('ended', function() {
-        currentIdx++;
-        if (currentIdx >= videoPlaylist.length) {
-            currentIdx = 0; // Balik ke video awal
+if (vid) {
+    // Fungsi Toggle Mute
+    muteBtn.addEventListener('click', () => {
+        vid.muted = !vid.muted;
+        if (vid.muted) {
+            muteIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+            muteBtn.style.background = "rgba(0, 242, 254, 0.6)";
+        } else {
+            muteIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+            muteBtn.style.background = "#00f2fe";
         }
-
-        const isMuted = videoElem.muted; // Simpan status mute terakhir
-
-        videoElem.src = videoPlaylist[currentIdx].src;
-        titleElem.innerText = videoPlaylist[currentIdx].title;
-        
-        videoElem.load();
-        videoElem.muted = isMuted;
-        
-        // Kasih delay dikit biar loading dropbox kelar baru play
-        setTimeout(() => {
-            videoElem.play();
-        }, 100);
     });
 
-    // TOMBOL MUTE
-    if (btnMute) {
-        btnMute.addEventListener('click', () => {
-            videoElem.muted = !videoElem.muted;
-            const icon = btnMute.querySelector('i');
-            if (videoElem.muted) {
-                icon.className = 'fas fa-volume-mute';
-                btnMute.style.background = "rgba(0, 242, 254, 0.6)";
-            } else {
-                icon.className = 'fas fa-volume-up';
-                btnMute.style.background = "#00f2fe";
-            }
-        });
-    }
+    // Auto Next Video
+    vid.addEventListener('ended', () => {
+        currentVidIndex = (currentVidIndex + 1) % videoPlaylist.length;
+        
+        // Simpan status mute saat ini supaya pas ganti video gak balik mute lagi
+        const isCurrentlyMuted = vid.muted;
+
+        vid.src = videoPlaylist[currentVidIndex].src;
+        vidTitle.innerText = videoPlaylist[currentVidIndex].title;
+        
+        vid.load();
+        vid.muted = isCurrentlyMuted; // Pakai status terakhir
+        vid.play();
+    });
 }
