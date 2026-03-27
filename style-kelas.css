@@ -747,3 +747,52 @@ body {
 .card-purple i {
     color: #bd00ff;
 }
+
+
+.video-section {
+    display: flex;
+    justify-content: center;
+    padding: 20px 5%;
+    margin-bottom: 30px;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+#video-wrapper {
+    width: 100%;
+    transition: opacity 0.8s ease-in-out; /* Efek transisi antar video */
+}
+
+#main-video {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    pointer-events: none;
+}
+
+#video-title {
+    color: #00f2fe;
+    font-size: 1.1rem;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.fade-out { opacity: 0; }
