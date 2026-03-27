@@ -377,15 +377,13 @@ function inisialisasiSlider(sliderId, dotsId) {
 document.addEventListener('DOMContentLoaded', () => {
     inisialisasiSlider('slider-1', 'dots-1');
     inisialisasiSlider('slider-2', 'dots-2');
-    inisialisasiSlider('slider-3', 'dots-3');
 });
 
 
 // 7. FITUR AUTO-NEXT VIDEO PLAYLIST
 const videoList = [
-    { src: "URL_VIDEO_1_LU.mp4", title: "Kebersamaan XII TKJ 1" },
-    { src: "URL_VIDEO_2_LU.mp4", title: "Momen Seru di Kelas" },
-    { src: "URL_VIDEO_3_LU.mp4", title: "Eksplorasi PI" }
+    { src: "WhatsApp Video 2026-03-27 at 17.55.29.mp4", title: "Kebersamaan XII TKJ 1" },
+    { src: "SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4", title: "Momen Seru di Kelas" },
 ];
 
 let currentVideoIndex = 0;
