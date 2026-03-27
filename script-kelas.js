@@ -380,43 +380,55 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Ganti link di bawah dengan link Dropbox lu (Wajib akhiran &raw=1)
+// CONFIGURATION PLAYLIST
 const videoPlaylist = [
-    { src: "https://www.dropbox.com/scl/fi/woxad3brd4ul9vf1xbr0t/SnapInsta.to_AQN0heJhKJVWTlqInWA8-YF_8hb2Pc7SNf4_fnvajis6M9zLH9g__Ff_7zVpAhtnDT2odsP19akJeZkVYonHJj2b.mp4?rlkey=5gjhp5xtd10ngnw8ax1bqrr3y&st=yrena874&raw=1", title: "Damn." },
-    { src: "https://www.dropbox.com/scl/fi/3nfbx8p4cnvlqxe3g871w/SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4?rlkey=ybvc5wzdgd85ngjljk5lamz0a&st=7bbmlk3y&raw=1", title: "SSJ (Seru-Seruan Aja)." }
+    { 
+        src: "https://www.dropbox.com/scl/fi/fsh86p3p1u78q0v6v7c5i/SnapInsta.to_322634358_162391039863481_5723467472061299946_n.mp4?rlkey=v68j8atn9r0491v3v6v7c5i&st=3r6j8atn&raw=1", 
+        title: "Damn." 
+    },
+    { 
+        src: "https://www.dropbox.com/scl/fi/3nfbx8p4cnvlqxe3g871w/SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4?rlkey=ybvc5wzdgd85ngjljk5lamz0a&st=7bbmlk3y&raw=1", 
+        title: "SSJ (Seru-Seruan Aja)." 
+    }
 ];
 
-let currentVidIndex = 0;
-const vid = document.getElementById('main-video');
-const vidTitle = document.getElementById('video-title');
-const muteBtn = document.getElementById('mute-btn');
-const muteIcon = muteBtn.querySelector('i');
+let currentIdx = 0;
+const videoElem = document.getElementById('main-video');
+const titleElem = document.getElementById('video-title');
+const btnMute = document.getElementById('mute-btn');
 
-if (vid) {
-    // Fungsi Toggle Mute
-    muteBtn.addEventListener('click', () => {
-        vid.muted = !vid.muted;
-        if (vid.muted) {
-            muteIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
-            muteBtn.style.background = "rgba(0, 242, 254, 0.6)";
-        } else {
-            muteIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
-            muteBtn.style.background = "#00f2fe";
+if (videoElem) {
+    // Fungsi pindah video
+    videoElem.addEventListener('ended', function() {
+        // Naikkan index, jika lebih dari jumlah video balik ke 0
+        currentIdx++;
+        if (currentIdx >= videoPlaylist.length) {
+            currentIdx = 0;
         }
+
+        // Simpan status mute supaya user gak perlu klik unmute lagi tiap ganti video
+        const isMuted = videoElem.muted;
+
+        videoElem.src = videoPlaylist[currentIdx].src;
+        titleElem.innerText = videoPlaylist[currentIdx].title;
+        
+        videoElem.load();
+        videoElem.muted = isMuted; 
+        videoElem.play().catch(err => console.log("Autoplay ditahan browser"));
     });
 
-    // Auto Next Video
-    vid.addEventListener('ended', () => {
-        currentVidIndex = (currentVidIndex + 1) % videoPlaylist.length;
-        
-        // Simpan status mute saat ini supaya pas ganti video gak balik mute lagi
-        const isCurrentlyMuted = vid.muted;
-
-        vid.src = videoPlaylist[currentVidIndex].src;
-        vidTitle.innerText = videoPlaylist[currentVidIndex].title;
-        
-        vid.load();
-        vid.muted = isCurrentlyMuted; // Pakai status terakhir
-        vid.play();
-    });
+    // Fungsi Mute/Unmute
+    if (btnMute) {
+        btnMute.addEventListener('click', () => {
+            videoElem.muted = !videoElem.muted;
+            const icon = btnMute.querySelector('i');
+            if (videoElem.muted) {
+                icon.className = 'fas fa-volume-mute';
+                btnMute.style.background = "rgba(0, 242, 254, 0.6)";
+            } else {
+                icon.className = 'fas fa-volume-up';
+                btnMute.style.background = "#00f2fe";
+            }
+        });
+    }
 }
