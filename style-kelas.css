@@ -842,3 +842,55 @@ body {
     padding: 15px 0 5px 0;
     text-align: center;
 }
+
+.video-wrapper-full {
+    width: 100%;
+    clear: both;
+    display: block;
+    margin-top: 50px;
+}
+
+.video-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.card-video-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 15px !important;
+}
+
+#video-display-area {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #000;
+}
+
+#main-video {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+}
+
+.mute-control {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(0, 242, 254, 0.6);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    z-index: 10;
+}
+
+
