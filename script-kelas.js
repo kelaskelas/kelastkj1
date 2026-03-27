@@ -382,8 +382,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Ganti link di bawah dengan link Dropbox lu (Wajib akhiran &raw=1)
 const videoPlaylist = [
-    { src: "https://www.dropbox.com/scl/fi/8tbq62b3gb6un7lqz48wg/WhatsApp-Video-2026-03-27-at-17.55.29.mp4?rlkey=42jlniqt6k3irdjptu07dl2w5&st=puq9e0pn&raw=1", title: "Memory 1: XII TKJ 1" },
-    { src: "https://www.dropbox.com/scl/fi/3nfbx8p4cnvlqxe3g871w/SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4?rlkey=ybvc5wzdgd85ngjljk5lamz0a&st=7bbmlk3y&raw=1", title: "Memory 2: Momen Seru" }
+    { src: "https://www.dropbox.com/scl/fi/8tbq62b3gb6un7lqz48wg/WhatsApp-Video-2026-03-27-at-17.55.29.mp4?rlkey=42jlniqt6k3irdjptu07dl2w5&st=puq9e0pn&raw=1", title: "Goodbye, Sir." },
+    { src: "https://www.dropbox.com/scl/fi/3nfbx8p4cnvlqxe3g871w/SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4?rlkey=ybvc5wzdgd85ngjljk5lamz0a&st=7bbmlk3y&raw=1", title: "SSJ (Seru-Seruan Aja)." }
 ];
 
 let currentVidIndex = 0;
