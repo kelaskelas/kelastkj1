@@ -380,7 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// CONFIGURATION PLAYLIST
 const videoPlaylist = [
     { 
         src: "https://www.dropbox.com/scl/fi/fsh86p3p1u78q0v6v7c5i/SnapInsta.to_322634358_162391039863481_5723467472061299946_n.mp4?rlkey=v68j8atn9r0491v3v6v7c5i&st=3r6j8atn&raw=1", 
@@ -398,26 +397,35 @@ const titleElem = document.getElementById('video-title');
 const btnMute = document.getElementById('mute-btn');
 
 if (videoElem) {
-    // Fungsi pindah video
+    // PAKSA JALAN SAAT LOAD
+    window.addEventListener('load', () => {
+        videoElem.play().catch(() => {
+            console.log("Autoplay diblokir, nunggu interaksi user...");
+        });
+    });
+
+    // AUTO NEXT & LOOP
     videoElem.addEventListener('ended', function() {
-        // Naikkan index, jika lebih dari jumlah video balik ke 0
         currentIdx++;
         if (currentIdx >= videoPlaylist.length) {
-            currentIdx = 0;
+            currentIdx = 0; // Balik ke video awal
         }
 
-        // Simpan status mute supaya user gak perlu klik unmute lagi tiap ganti video
-        const isMuted = videoElem.muted;
+        const isMuted = videoElem.muted; // Simpan status mute terakhir
 
         videoElem.src = videoPlaylist[currentIdx].src;
         titleElem.innerText = videoPlaylist[currentIdx].title;
         
         videoElem.load();
-        videoElem.muted = isMuted; 
-        videoElem.play().catch(err => console.log("Autoplay ditahan browser"));
+        videoElem.muted = isMuted;
+        
+        // Kasih delay dikit biar loading dropbox kelar baru play
+        setTimeout(() => {
+            videoElem.play();
+        }, 100);
     });
 
-    // Fungsi Mute/Unmute
+    // TOMBOL MUTE
     if (btnMute) {
         btnMute.addEventListener('click', () => {
             videoElem.muted = !videoElem.muted;
