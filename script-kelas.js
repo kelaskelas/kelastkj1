@@ -382,11 +382,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const videoPlaylist = [
     { 
-        src: "https://www.dropbox.com/scl/fi/fsh86p3p1u78q0v6v7c5i/SnapInsta.to_322634358_162391039863481_5723467472061299946_n.mp4?rlkey=v68j8atn9r0491v3v6v7c5i&st=3r6j8atn&raw=1", 
+        src: "https://www.dropbox.com/scl/fi/woxad3brd4ul9vf1xbr0t/SnapInsta.to_AQN0heJhKJVWTlqInWA8-YF_8hb2Pc7SNf4_fnvajis6M9zLH9g__Ff_7zVpAhtnDT2odsP19akJeZkVYonHJj2b.mp4?rlkey=5gjhp5xtd10ngnw8ax1bqrr3y&st=po8lxu4o&raw=1", 
         title: "Damn." 
     },
     { 
-        src: "https://www.dropbox.com/scl/fi/3nfbx8p4cnvlqxe3g871w/SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4?rlkey=ybvc5wzdgd85ngjljk5lamz0a&st=7bbmlk3y&raw=1", 
+        src: "https://www.dropbox.com/scl/fi/3nfbx8p4cnvlqxe3g871w/SnapInsta.to_AQOl8hBc7mX47417RVlQvQ_nhDk0YXxiMm9mQxXJH05CtFO01VVLE7jbr9q1ae6Kmd_lOAxNvnJFwoNnWX8k9bxz.mp4?rlkey=ybvc5wzdgd85ngjljk5lamz0a&st=ycnrk7am&raw=1", 
         title: "SSJ (Seru-Seruan Aja)." 
     }
 ];
