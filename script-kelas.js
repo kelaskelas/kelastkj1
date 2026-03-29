@@ -307,77 +307,76 @@ document.addEventListener('click', (e) => {
     }
 });
 
-function inisialisasiSlider(sliderId, dotsId) {
-    const slider = document.getElementById(sliderId);
-    if (!slider) return;
+// --- FITUR SLIDER MANUAL (UNTUK SEMUA SLIDER) ---
+const initSemuaSlider = () => {
+    // Mencari semua container slider yang ada di HTML lu
+    const containers = document.querySelectorAll('.slider-container');
 
-    const dots = document.getElementById(dotsId).querySelectorAll('.dot');
-    const container = slider.parentElement;
+    containers.forEach((container) => {
+        const slider = container.querySelector('.slider-wrapper');
+        const dots = container.parentElement.querySelectorAll('.dot');
+        let currentIndex = 0;
+        let startX = 0;
+        let isDragging = false;
 
-    let isDragging = false;
-    let startX = 0;
-    let currentTranslate = 0;
-    let prevTranslate = 0;
-    let currentIndex = 0;
+        const updateUI = () => {
+            slider.style.transition = "transform 0.5s ease-out";
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        };
 
-    const updateUI = () => {
-        slider.style.transition = 'transform 0.4s ease-out';
-        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
-    };
+        const onStart = (e) => {
+            isDragging = true;
+            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+            slider.style.transition = "none";
+        };
 
-    // Fungsi mulai geser
-    const onStart = (e) => {
-        isDragging = true;
-        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-        slider.style.transition = 'none'; // Matikan animasi pas lagi ditarik biar nempel
+        const onMove = (e) => {
+            if (!isDragging) return;
+            const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+            const moveDistance = ((currentX - startX) / container.offsetWidth) * 100;
+            slider.style.transform = `translateX(${(currentIndex * -100) + moveDistance}%)`;
+        };
+
+        const onEnd = (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            const endX = e.type.includes('mouse') ? e.pageX : (e.changedTouches ? e.changedTouches[0].pageX : startX);
+            const diff = endX - startX;
+
+            // Jika geser lebih dari 50px, pindah foto
+            if (diff < -50 && currentIndex < dots.length - 1) {
+                currentIndex++;
+            } else if (diff > 50 && currentIndex > 0) {
+                currentIndex--;
+            }
+            updateUI();
+        };
+
+        // Event Listeners buat Mouse (Laptop) & Touch (HP)
+        container.addEventListener('mousedown', onStart);
+        container.addEventListener('touchstart', onStart, { passive: true });
         
-        // Mencegah block warna biru/seleksi teks
-        if (e.type === 'mousedown') e.preventDefault(); 
-    };
-
-    // Fungsi saat ditarik
-    const onMove = (e) => {
-        if (!isDragging) return;
-        const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
-        const moveDistance = ((currentX - startX) / container.offsetWidth) * 100;
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('touchmove', onMove, { passive: true });
         
-        // Gerakan nempel di kursor
-        slider.style.transform = `translateX(${(currentIndex * -100) + moveDistance}%)`;
-    };
+        window.addEventListener('mouseup', onEnd);
+        window.addEventListener('touchend', onEnd);
 
-    // Fungsi saat dilepas
-    const onEnd = (e) => {
-        if (!isDragging) return;
-        isDragging = false;
-        const endX = e.type.includes('mouse') ? e.pageX : e.changedTouches[0].pageX;
-        const diff = endX - startX;
+        // Klik dots manual
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateUI();
+            });
+        });
+    });
+};
 
-        // Sensitivitas geser: minimal 50px
-        if (diff < -50 && currentIndex < dots.length - 1) {
-            currentIndex++;
-        } else if (diff > 50 && currentIndex > 0) {
-            currentIndex--;
-        }
-
-        updateUI();
-    };
-
-    // Event Listeners
-    container.addEventListener('mousedown', onStart);
-    container.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onEnd); // Pakai window biar kalau mouse lepas container tetep ke-detect
-
-    container.addEventListener('touchstart', onStart, { passive: true });
-    container.addEventListener('touchmove', onMove, { passive: true });
-    container.addEventListener('touchend', onEnd);
-}
-
-// Jalankan Slider
-document.addEventListener('DOMContentLoaded', () => {
-    inisialisasiSlider('slider-1', 'dots-1');
-    inisialisasiSlider('slider-2', 'dots-2');
-});
+// Jalankan fungsi
+initSemuaSlider();
 
 
 // 7. CONFIGURATION VIDEO PLAYLIST (3 VIDEO URUT)
